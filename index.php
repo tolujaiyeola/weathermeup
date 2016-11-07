@@ -30,8 +30,14 @@
     padding-bottom: 15px;
   }
 
-  btn{
+  button{
     margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .alert{
+    margin-top: 20px;
+    display:none;
   }
 </style>
 </head>
@@ -47,16 +53,53 @@
             <div class="form-group">
               <input type="text" class="form-control" name="city" id="city" placeholder="Eg. Toronto, Regina, Edmonton ...">
             </div>
-            <button class="btn btn-success btn-lg">Find my weather</button>
+            <button id="findMyWeather" class="btn btn-success btn-lg">Find my weather</button>
           </form>
 
+          <div id="success" class="alert alert-success"> Success! </div>
+          <div id="fail" class="alert alert-danger"> Could not find weahter data for that city. Please try again.  </div>
+          <div id="noCity" class="alert alert-danger">  Please enter a city. </div>
         </div>
+
+
       </div>
+
+
+
     </div>
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+      $("#findMyWeather").click(function(event){
+
+          event.preventDefault();
+
+          $(".alert").hide();
+
+          if ($("#city").val()!=""){
+
+
+          $.get("scraper.php?city="+$("#city").val(),function(data){
+
+
+            if(data==""){
+
+              $("#fail").fadeIn();
+
+            }else{
+
+              $("#success").html(data).fadeIn();
+            }
+          });
+        }else{
+          // alert("Please enter a city");
+          $("#noCity").fadeIn();
+        }
+      });
+
+    </script>
   </body>
 
 
